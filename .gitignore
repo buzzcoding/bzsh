@@ -1,0 +1,7 @@
+*.out
+bzsh
+bzsh.exe
+bzshwin.exe
+build
+link
+tmp*
