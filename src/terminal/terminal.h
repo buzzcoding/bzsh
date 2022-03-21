@@ -3,8 +3,7 @@
 #include<string.h>
 #include<stdio.h>
 
-//#include "../../../higherc/src/higherc.h"
-#include "higherc.h"
+#include "../higher/higher.h"
 #include "../port.h"
 
 #define argmax 524288

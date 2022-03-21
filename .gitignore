@@ -5,3 +5,6 @@ bzshwin.exe
 build
 link
 tmp*
+*.swp
+*/*.swp
+*/*/*.swp
