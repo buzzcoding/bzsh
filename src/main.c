@@ -12,7 +12,7 @@ const char* shname = "bzsh";
 const char* shvers = "alpha 0.x.x";
 char* defPS1 = "[\\u@\\H \\w]$ ";
 int running = 1;
-int histstart;
+int histstart = 0;
 
 struct bzsh_cmd {
 	int argc;
@@ -217,7 +217,7 @@ int main(int argc, char* argv[]) {
 		envsetinit("HISTFILE", histbuff);
 
 		lines = newList();
- 		FILE* hist = fopen(histbuff, "a+");
+ 		FILE* hist = fopen(histbuff, "r");
 		char* line;
 		size_t len;
 		while (getline(&line, &len, hist) != -1) {
@@ -230,7 +230,7 @@ int main(int argc, char* argv[]) {
 		lineN = latest;
 		fclose(hist);
 		List item;
-		foreachL(item, lines) { histstart++; }
+		for (List line = item; line; line = line->next) { histstart++; }
 		running = 1;
 	}
 
@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
 		if (!strcmp(argv[1], "--version")) {
 			printf("%s (%s) %s\n", argv[0], shname, shvers);
 			running = 0;
-		} else if (file = fopen(argv[1], "r")) {
+		} else if ((file = fopen(argv[1], "r"))) {
 			runscript(file);
 			fclose(file);
 		}
@@ -273,12 +273,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	//Write history, clean up, and exit
-/* 	printf("a\n");
-	FILE *hist = fopen(getenv("HISTFILE"), "a");
+ 	printf("a\n");
+	FILE *hist = fopen(getenv("HISTFILE"), "w");
 	List tmp = listGetN(lines, histstart);
-	foreachL(line, tmp) { fprintf(hist, "%s", (char*) line->item); }
+	for (List line = tmp; line; line = line->next) { fprintf(hist, "%s\n", (char*) line->item); }
 	fclose(hist);
-	listDel(tmp);
-	listDel(lines); */
+	listDel(lines);
 	return 0;
 }
