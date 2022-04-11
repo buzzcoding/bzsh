@@ -273,7 +273,6 @@ int main(int argc, char* argv[]) {
 	}
 
 	//Write history, clean up, and exit
- 	printf("a\n");
 	FILE *hist = fopen(getenv("HISTFILE"), "w");
 	List tmp = listGetN(lines, histstart);
 	for (List line = tmp; line; line = line->next) { fprintf(hist, "%s\n", (char*) line->item); }
